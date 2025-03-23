@@ -1,0 +1,38 @@
+# General ignores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+*.swp
+
+# Backend (Spring Boot - Java)
+backend/target/
+backend/*.iml
+backend/*.class
+backend/*.jar
+backend/*.war
+backend/*.ear
+backend/build/
+backend/.gradle/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/.env
+*.properties
+backend/application.properties
+backend/application.yml
+backend/application.yaml
+
+# Frontend (Next.js - React)
+frontend/node_modules/
+frontend/.next/
+frontend/dist/
+frontend/yarn.lock
+frontend/package-lock.json
+frontend/.env.local
+frontend/.env.development
+frontend/.env.production
+frontend/.eslintcache
+frontend/.npm-debug.log*
+

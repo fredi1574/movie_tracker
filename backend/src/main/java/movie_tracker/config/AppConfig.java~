@@ -1,0 +1,4 @@
+package movie_tracker.config;
+
+public class AppConfig {
+}

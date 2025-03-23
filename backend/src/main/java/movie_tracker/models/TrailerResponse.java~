@@ -1,0 +1,13 @@
+package movie_tracker.models;
+
+public class TrailerResponse {
+    private List<TrailerResult> results;
+
+    public List<TrailerResult> getResults() {
+        return results;
+    }
+
+    public void setResults(List<TrailerResult> results) {
+        this.results = results;
+    }
+}

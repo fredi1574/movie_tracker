@@ -1,0 +1,4 @@
+package movie_tracker.Repositories;
+
+public class WatchListMovieRepository {
+}
