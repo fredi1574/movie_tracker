@@ -1,5 +1,5 @@
-export async function getPopularMovies() {
-  const response = await fetch("http://localhost:8080/popular");
+export async function getPopularMovies(page) {
+  const response = await fetch(`http://localhost:8080/popular?page=${page}`);
 
   if (!response.ok) {
     throw new Error(response.statusText);
