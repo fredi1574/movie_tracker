@@ -1,6 +1,11 @@
 import CardsGrid from "@/components/CardsGrid";
 import { getWatchlist } from "@/utils/watchlistAPI";
 
+export const metadata = {
+  title: "Watchlist",
+  description: "A list of movies you marked to watch",
+};
+
 export default async function watchlistPage() {
   const watchlist = await getWatchlist();
 

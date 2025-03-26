@@ -1,6 +1,11 @@
 import CardsGrid from "@/components/CardsGrid";
 import { getSeenMovies } from "@/utils/seenAPI";
 
+export const metadata = {
+  title: "Seen Movies",
+  description: "A list of movies you have seen",
+};
+
 export default async function seenPage() {
   const seenMovies = await getSeenMovies();
 
