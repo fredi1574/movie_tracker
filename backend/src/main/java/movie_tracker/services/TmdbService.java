@@ -26,8 +26,8 @@ public class TmdbService {
         this.restTemplate = restTemplate;
     }
 
-    public List<MovieDto> getPopularMovies() {
-        String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/movie/popular").queryParam("api_key", apiKey).queryParam("page", 1).toUriString();
+    public List<MovieDto> getPopularMovies(int page) {
+        String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/movie/popular").queryParam("api_key", apiKey).queryParam("page", page).toUriString();
 
         ResponseWrapper responseWrapper = restTemplate.getForObject(url, ResponseWrapper.class);
         return responseWrapper.getResults();
@@ -55,7 +55,7 @@ public class TmdbService {
                 .stream()
                 .filter(crew -> "Director".equals(crew.getJob()))
                 .collect(Collectors.toList());
-        
+
         cast.setCast(topActors);
         cast.setCrew(directors);
 
