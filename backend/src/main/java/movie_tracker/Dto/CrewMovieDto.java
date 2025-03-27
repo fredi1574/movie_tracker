@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DirectorDto {
+public class CrewMovieDto {
     private int id;
-    private String name;
+    private String title;
     private String job;
-    private String profile_path;
+    private String overview;
+    private String poster_path;
 }

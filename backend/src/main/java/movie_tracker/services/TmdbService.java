@@ -29,8 +29,8 @@ public class TmdbService {
     public List<MovieDto> getPopularMovies(int page) {
         String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/movie/popular").queryParam("api_key", apiKey).queryParam("page", page).toUriString();
 
-        ResponseWrapper responseWrapper = restTemplate.getForObject(url, ResponseWrapper.class);
-        return responseWrapper.getResults();
+        ListResponseWrapper listResponseWrapper = restTemplate.getForObject(url, ListResponseWrapper.class);
+        return listResponseWrapper.getResults();
     }
 
     public MovieDto getMovieDetails(int movieId) {
@@ -65,8 +65,8 @@ public class TmdbService {
     public List<MovieDto> getSimilarMovies(Long movieId) {
         String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/movie/" + movieId + "/similar").queryParam("api_key", apiKey).queryParam("page", 1).toUriString();
 
-        ResponseWrapper responseWrapper = restTemplate.getForObject(url, ResponseWrapper.class);
-        return responseWrapper.getResults();
+        ListResponseWrapper listResponseWrapper = restTemplate.getForObject(url, ListResponseWrapper.class);
+        return listResponseWrapper.getResults();
     }
 
     public String getMovieTrailer(Long movieId) {
@@ -82,8 +82,21 @@ public class TmdbService {
                 }
             }
         }
-
         return null;
+    }
+
+    public List<MovieDto> getMoviesByDirector(Long directorId) {
+        String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/person/" + directorId + "/movie_credits").queryParam("api_key", apiKey).toUriString();
+
+        MoviesResponseWrapper moviesResponseWrapper = restTemplate.getForObject(url, MoviesResponseWrapper.class);
+        return moviesResponseWrapper.getCrew().stream().filter(movie -> "Director".equals(movie.getJob())).map(movie -> MovieDto.builder().id(movie.getId()).title(movie.getTitle()).overview(movie.getOverview()).poster_path(movie.getPoster_path()).build()).collect(Collectors.toList());
+    }
+
+    public List<MovieDto> getMoviesByActor(Long actorId) {
+        String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/person/" + actorId + "/movie_credits").queryParam("api_key", apiKey).toUriString();
+
+        MoviesResponseWrapper moviesResponseWrapper = restTemplate.getForObject(url, MoviesResponseWrapper.class);
+        return moviesResponseWrapper.getCast().stream().map(movie -> MovieDto.builder().id(movie.getId()).title(movie.getTitle()).overview(movie.getOverview()).poster_path(movie.getPoster_path()).build()).collect(Collectors.toList());
     }
 
     public List<MovieDto> searchMovies(String query) {
@@ -92,6 +105,4 @@ public class TmdbService {
         ResponseEntity<MovieDto[]> response = restTemplate.getForEntity(url, MovieDto[].class);
         return Arrays.asList(response.getBody());
     }
-
-
 }

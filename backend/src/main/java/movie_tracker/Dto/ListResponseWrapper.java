@@ -7,10 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ResponseWrapper {
-
+public class ListResponseWrapper {
     private int page;
     private List<MovieDto> results;
-
-
 }

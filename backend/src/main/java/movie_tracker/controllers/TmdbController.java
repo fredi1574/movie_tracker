@@ -43,4 +43,14 @@ public class TmdbController {
     public String getMovieTrailer(@PathVariable Long movieId) {
         return tmdbService.getMovieTrailer(movieId);
     }
+
+    @GetMapping("/director/{directorId}/movies")
+    public List<MovieDto> getMoviesByDirector(@PathVariable Long directorId) {
+        return tmdbService.getMoviesByDirector(directorId);
+    }
+
+    @GetMapping("/actor/{actorId}/movies")
+    public List<MovieDto> getMoviesByActor(@PathVariable Long actorId) {
+        return tmdbService.getMoviesByActor(actorId);
+    }
 }
