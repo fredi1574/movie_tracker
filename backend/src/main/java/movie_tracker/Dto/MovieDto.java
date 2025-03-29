@@ -13,7 +13,7 @@ public class MovieDto {
     private int id;
     private String title;
     private String poster_path;
-    private List<Object> genres;
+    private List<GenreDto> genres;
     private String overview;
     private String release_date;
     private int runtime;

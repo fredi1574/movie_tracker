@@ -37,4 +37,9 @@ public class WatchListMovieController {
 
         return removed ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
     }
+
+    @GetMapping("/count")
+    public int getWatchListMoviesCount() {
+        return watchListMovieService.getWatchListMovies().size();
+    }
 }
