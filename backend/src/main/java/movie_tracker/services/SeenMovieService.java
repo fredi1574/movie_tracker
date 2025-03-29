@@ -1,5 +1,8 @@
 package movie_tracker.services;
 
+import movie_tracker.Dto.GenreCountDto;
+import movie_tracker.Dto.GenreDto;
+import movie_tracker.Dto.MovieDto;
 import movie_tracker.Repositories.SeenMovieRepository;
 import movie_tracker.models.SeenMovie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +12,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class SeenMovieService {
 
     private final String TMDB_API_URL = "https://api.themoviedb.org/3";
-
+    private final TmdbService tmdbService;
     @Value("${tmdb.api.key}")
     private String apiKey;
-
     @Autowired
     private SeenMovieRepository seenMovieRepository;
+
+    public SeenMovieService(TmdbService tmdbService) {
+        this.tmdbService = tmdbService;
+    }
 
     public List<Object> getSeenMovies() {
         List<SeenMovie> seenMovies = seenMovieRepository.findAll();
@@ -45,6 +51,26 @@ public class SeenMovieService {
 
     public void removeSeenMovie(Long movieId) {
         seenMovieRepository.deleteById(movieId);
+    }
+
+    public List<GenreCountDto> countMoviesByGenre() {
+        List<SeenMovie> seenMovies = seenMovieRepository.findAll();
+        Map<Integer, GenreCountDto> genreCounts = new HashMap<>();
+        Set<Long> moviesIds = new HashSet<>();
+
+        for (SeenMovie seenMovie : seenMovies) {
+            if (!moviesIds.contains(seenMovie.getMovieId())) {
+                moviesIds.add(seenMovie.getMovieId());
+
+                MovieDto movieDetails = tmdbService.getMovieDetails(seenMovie.getMovieId().intValue());
+
+                for (GenreDto genre : movieDetails.getGenres()) {
+                    genreCounts.putIfAbsent(genre.getId(), new GenreCountDto(genre.getId(), genre.getName(), 0));
+                    genreCounts.get(genre.getId()).incrementCount();
+                }
+            }
+        }
+        return new ArrayList<>(genreCounts.values());
     }
 
 }
