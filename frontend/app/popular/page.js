@@ -1,6 +1,6 @@
 import CardsGrid from "@/components/CardsGrid";
 import Pagination from "@/components/Pagination";
-import { getPopularMovies } from "@/utils/api";
+import { getPopularMovies } from "@/utils/moviePageAPI";
 
 export const metadata = {
   title: "Popular Movies",
@@ -17,6 +17,7 @@ export default async function Popular({ searchParams }) {
       <h1 className="mb-4 text-center text-3xl font-bold">Popular Movies</h1>
       <Pagination page={page} />
       <CardsGrid movies={popularMovies} />
+      <Pagination page={page} />
     </div>
   );
 }
