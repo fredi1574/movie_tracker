@@ -80,12 +80,12 @@ export default function WatchListSeenButtons({ movieId }) {
         {inWatchlist ? (
           <>
             <BookmarkMinus className="h-4 w-4" />
-            <span>Remove from Watchlist</span>
+            <span className="hidden md:inline">Remove from Watchlist</span>
           </>
         ) : (
           <>
             <BookmarkPlus className="h-4 w-4" />
-            <span>Add to Watchlist</span>
+            <span className="hidden md:inline">Add to Watchlist</span>
           </>
         )}
       </Button>
@@ -101,12 +101,12 @@ export default function WatchListSeenButtons({ movieId }) {
         ) : seen ? (
           <>
             <EyeOff className="h-4 w-4" />
-            <span>Remove Seen</span>
+            <span className="hidden md:inline">Remove Seen</span>
           </>
         ) : (
           <>
             <Eye className="h-4 w-4" />
-            <span>Mark Seen</span>
+            <span className="hidden md:inline">Mark Seen</span>
           </>
         )}
       </Button>

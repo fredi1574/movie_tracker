@@ -22,6 +22,7 @@ export default function Header() {
   const isActive = (path) => pathname === path;
 
   const navItems = [
+    { name: "Home", path: "/" },
     { name: "Popular", path: "/popular" },
     { name: "Watchlist", path: "/watchlist" },
     { name: "Seen", path: "/seen" },
