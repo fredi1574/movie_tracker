@@ -44,3 +44,44 @@ export async function markAsUnseen(movieId) {
     console.log("Movie marked as unseen!");
   }
 }
+
+export async function getSeenMoviesCount() {
+  const response = await fetch("http://localhost:8080/seen/count");
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function countMoviesByGenre() {
+  const response = await fetch("http://localhost:8080/seen/genre-count");
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const data = await response.json();
+
+  const formattedData = data.map((genre) => ({
+    id: genre.id,
+    genre: genre.name,
+    moviesWatched: genre.count,
+    fill: `var(--chart-${Math.floor(Math.random() * 20) + 1})`,
+  }));
+
+  return formattedData;
+}
+
+export async function getMostWatchedGenre() {
+  const response = await fetch("http://localhost:8080/seen/most-watched-genre");
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const data = await response.json();
+  return data.map((genre) => genre.name).join(", ");
+}

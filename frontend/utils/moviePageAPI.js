@@ -60,3 +60,27 @@ export async function getSimilarMovies(movieId) {
   const data = await response.json();
   return data;
 }
+
+export async function getDirectorMovies(directorId) {
+  const response = await fetch(
+    `http://localhost:8080/director/${directorId}/movies`,
+  );
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export async function getActorMovies(actorId) {
+  const response = await fetch(`http://localhost:8080/actor/${actorId}/movies`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+}

@@ -49,3 +49,16 @@ export async function removeFromWatchlist(movieId) {
   const data = await response.json();
   return data;
 }
+
+export async function getWatchlistCount() {
+  const response = await fetch("http://localhost:8080/watchlist/count", {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+
+  const data = await response.json();
+  return data;
+}
