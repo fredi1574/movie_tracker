@@ -1,5 +1,5 @@
-import SimilarMovies from "@/components/similarMovies";
 import Trailer from "@/components/MovieTrailer";
+import SimilarMovies from "@/components/similarMovies";
 import { Badge } from "@/components/ui/badge";
 import WatchListSeenButtons from "@/components/WatchListSeenButtons";
 import {
@@ -7,17 +7,17 @@ import {
   getMovieDetails,
   getMovieTrailer,
   getSimilarMovies,
-} from "@/utils/api";
+} from "@/utils/moviePageAPI";
 import { CalendarDays, Clock, DollarSign, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Movie({ params }) {
   const param = await params;
   const movie = await getMovieDetails(param.id);
   const trailerKey = await getMovieTrailer(param.id);
   const similarMovies = await getSimilarMovies(param.id);
-
-  const crew = await getMovieCredits(param.id);
+  const credits = await getMovieCredits(param.id);
 
   const releaseDate = new Date(movie.release_date).toLocaleDateString("en-IL");
 
@@ -106,28 +106,30 @@ export default async function Movie({ params }) {
               <div className="mb-6">
                 <h2 className="mb-3 text-xl font-semibold">Directors</h2>
                 <div className="flex flex-wrap gap-3">
-                  {crew.crew.map((director) => (
-                    <div
-                      key={director.name}
-                      className="flex items-center gap-2 rounded-full bg-white/10 py-1 pr-3 pl-1 transition-colors hover:bg-white/15"
-                    >
-                      {director.profile_path ? (
-                        <Image
-                          src={`https://image.tmdb.org/t/p/w92/${director.profile_path}`}
-                          alt={director.name}
-                          width={30}
-                          height={30}
-                          className="aspect-square rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-xs text-gray-400">
-                          {director.name.charAt(0)}
-                        </div>
-                      )}
-                      <span className="text-sm font-medium">
-                        {director.name}
-                      </span>
-                    </div>
+                  {credits.crew.map((director) => (
+                    <Link key={director.id} href={`/director/${director.id}`}>
+                      <div
+                        key={director.id}
+                        className="flex items-center gap-2 rounded-full bg-white/10 py-1 pr-3 pl-1 transition-colors hover:bg-white/15"
+                      >
+                        {director.profile_path ? (
+                          <Image
+                            src={`https://image.tmdb.org/t/p/w92/${director.profile_path}`}
+                            alt={director.name}
+                            width={30}
+                            height={30}
+                            className="aspect-square rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-xs text-gray-400">
+                            {director.name.charAt(0)}
+                          </div>
+                        )}
+                        <span className="text-sm font-medium">
+                          {director.name}
+                        </span>
+                      </div>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -136,26 +138,30 @@ export default async function Movie({ params }) {
               <div className="mb-6">
                 <h2 className="mb-3 text-xl font-semibold">Top Cast</h2>
                 <div className="flex flex-wrap gap-3">
-                  {crew.cast.map((actor) => (
-                    <div
-                      key={actor.name}
-                      className="flex items-center gap-2 rounded-full bg-white/10 py-1 pr-3 pl-1 transition-colors hover:bg-white/20"
-                    >
-                      {actor.profile_path ? (
-                        <Image
-                          src={`https://image.tmdb.org/t/p/w92/${actor.profile_path}`}
-                          alt={actor.name}
-                          width={30}
-                          height={30}
-                          className="aspect-square rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-xs text-gray-400">
-                          {actor.name.charAt(0)}
-                        </div>
-                      )}
-                      <span className="text-sm font-medium">{actor.name}</span>
-                    </div>
+                  {credits.cast.map((actor) => (
+                    <Link key={actor.id} href={`/actor/${actor.id}`}>
+                      <div
+                        key={actor.name}
+                        className="flex items-center gap-2 rounded-full bg-white/10 py-1 pr-3 pl-1 transition-colors hover:bg-white/20"
+                      >
+                        {actor.profile_path ? (
+                          <Image
+                            src={`https://image.tmdb.org/t/p/w92/${actor.profile_path}`}
+                            alt={actor.name}
+                            width={30}
+                            height={30}
+                            className="aspect-square rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-xs text-gray-400">
+                            {actor.name.charAt(0)}
+                          </div>
+                        )}
+                        <span className="text-sm font-medium">
+                          {actor.name}
+                        </span>
+                      </div>
+                    </Link>
                   ))}
                 </div>
               </div>
