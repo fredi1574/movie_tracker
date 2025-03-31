@@ -2,6 +2,7 @@ import ExampleChart from "@/components/dashboard/ExampleChart";
 import GenresChart from "@/components/dashboard/GenresChart";
 import StatsCards from "@/components/dashboard/StatsCards";
 import WatchlistPreview from "@/components/dashboard/WatchlistPreview";
+import Header from "@/components/Header";
 
 export const metadata = {
   title: "Movie Tracker",
@@ -12,23 +13,26 @@ export default async function Home() {
   const user = "John Doe";
 
   return (
-    <div className="container mx-auto my-4 gap-4 px-2">
-      <h1 className="mb-2 text-3xl font-bold">Welcome back, {user}</h1>
-      <p className="text-gray-400">
-        Discover new movies and see your watching stats.
-      </p>
+    <>
+      <Header />
+      <div className="container mx-auto my-4 gap-4 px-2">
+        <h1 className="mb-2 text-3xl font-bold">Welcome back, {user}</h1>
+        <p className="text-gray-400">
+          Discover new movies and see your watching stats.
+        </p>
 
-      <StatsCards />
+        <StatsCards />
 
-      <div className="flex flex-col gap-4 md:flex-row">
-        <div className="sm:w-full">
-          <GenresChart />
+        <div className="flex flex-col gap-4 md:flex-row">
+          <div className="sm:w-full md:w-1/3">
+            <GenresChart />
+          </div>
+          <div className="sm:w-full md:w-2/3">
+            <ExampleChart />
+          </div>
         </div>
-        <div className="sm:w-full">
-          <ExampleChart />
-        </div>
+        <WatchlistPreview />
       </div>
-      <WatchlistPreview />
-    </div>
+    </>
   );
 }
