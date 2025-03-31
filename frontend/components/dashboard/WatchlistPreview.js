@@ -7,7 +7,7 @@ import { getWatchlist } from "@/utils/watchlistAPI";
 import WatchListSeenButtons from "../WatchListSeenButtons";
 
 export default async function WatchlistPreview() {
-  const movies = await getWatchlist();
+  const movies = (await getWatchlist()).slice(0, 4);
 
   if (!movies || movies.length === 0) {
     return (
