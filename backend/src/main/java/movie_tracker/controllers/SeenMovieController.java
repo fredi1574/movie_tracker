@@ -53,7 +53,7 @@ public class SeenMovieController {
         List<GenreCountDto> genreCounts = seenMovieService.countMoviesByGenre();
 
         if (genreCounts.isEmpty()) {
-            return ResponseEntity.ok(Collections.singletonList(new GenreCountDto(0, "N/A", 0)));
+            return ResponseEntity.ok(Collections.emptyList());
         }
 
         int maxCount = genreCounts.stream().mapToInt(GenreCountDto::getCount).max().orElse(0);
