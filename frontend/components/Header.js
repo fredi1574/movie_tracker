@@ -14,12 +14,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import SearchBar from "./SearchBar";
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isActive = (path) => pathname === path;
+
+  const handleLogout = () => {};
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -58,13 +61,17 @@ export default function Header() {
             ))}
           </nav>
 
+          <div className="hidden justify-center px-4 md:flex">
+            <SearchBar />
+          </div>
+
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button className="relative h-10 w-10 rounded-full hover:cursor-pointer">
                   <Avatar className="h-9 w-9">
                     <AvatarImage src="/placeholder.svg" alt="User" />
-                    <AvatarFallback className="bg-primary/10 text-primary">
+                    <AvatarFallback className="bg-primary/10 text-primary relative">
                       <Image
                         src="/joy.jpg"
                         alt="User"
@@ -86,7 +93,7 @@ export default function Header() {
 
                 <DropdownMenuItem>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <span onClick={handleLogout}>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -106,6 +113,7 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="border-t border-white/10 py-4 md:hidden">
             <nav className="flex flex-col space-y-1">
+              <SearchBar />
               {navItems.map((item) => (
                 <Link
                   key={item.path}
