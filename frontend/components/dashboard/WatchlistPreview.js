@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getWatchlist } from "@/utils/watchlistAPI";
 import { Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getWatchlist } from "@/utils/watchlistAPI";
 import WatchListSeenButtons from "../WatchListSeenButtons";
 
 export default async function WatchlistPreview() {

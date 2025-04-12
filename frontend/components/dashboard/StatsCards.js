@@ -6,8 +6,8 @@ import { Clock, Film, Heart, Star } from "lucide-react";
 export default async function StatsCards() {
   const favoriteGenre = await getMostWatchedGenre();
   const watchlistCount = await getWatchlistCount();
-  const averageRating = 7.6;
   const movieCount = await getSeenMoviesCount();
+  const averageRating = 10;
 
   return (
     <div className="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -24,7 +24,7 @@ export default async function StatsCards() {
           </div>
           <p className="mt-4 text-xs text-gray-500">
             {movieCount > 0
-              ? `That's ${Math.round(movieCount * 2.1)} hours of movies!`
+              ? `Number of movies you have watched`
               : "Start watching to track your progress"}
           </p>
         </CardContent>

@@ -1,5 +1,5 @@
-import { getActorMovies, getDirectorMovies } from "@/utils/moviePageAPI";
 import CardsGrid from "@/components/CardsGrid";
+import { getActorMovies, getDirectorMovies } from "@/utils/moviePageAPI";
 
 export default async function Person({ params }) {
   const { role, id, name } = await params;

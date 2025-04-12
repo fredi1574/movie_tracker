@@ -12,25 +12,42 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Film } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setMessage("");
 
-    // Simulate login process
-    setTimeout(() => {
-      console.log("Logging in with:", { email, password });
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Invalid credentials");
+      }
+      setMessage("Login successful! Redirecting...");
+
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
       setIsLoading(false);
-      router.push("/"); // Redirect to dashboard after login
-    }, 1500);
+    }
   };
 
   return (
@@ -58,7 +75,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-white/10 bg-white/5 text-white"
+                className="border-white/10 bg-white/5"
               />
             </div>
             <div className="space-y-2">
@@ -77,7 +94,7 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-white/10 bg-white/5 text-white"
+                className="border-white/10 bg-white/5"
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>

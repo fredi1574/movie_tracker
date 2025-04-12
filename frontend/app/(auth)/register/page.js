@@ -12,26 +12,43 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Film } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setMessage("");
 
-    // Simulate registration process
-    setTimeout(() => {
-      console.log("Registering with:", { name, email, password });
+    try {
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+        credentials: "include",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage("Registration successful! Redirecting...");
+        setTimeout(() => router.push("/"), 1000);
+      } else {
+        setMessage(`Error: ${data.error || "Something went wrong"}`);
+      }
+    } catch (error) {
+      setMessage("An error occurred. Please try again.");
+    } finally {
       setIsLoading(false);
-      router.push("/login"); // Redirect to login after registration
-    }, 1500);
+    }
   };
 
   return (
@@ -58,7 +75,7 @@ export default function RegisterPage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border-white/10 bg-white/5 text-white"
+                className="border-white/10 bg-white/5"
               />
             </div>
             <div className="space-y-2">
@@ -70,7 +87,7 @@ export default function RegisterPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="border-white/10 bg-white/5 text-white"
+                className="border-white/10 bg-white/5"
               />
             </div>
             <div className="space-y-2">
@@ -81,7 +98,7 @@ export default function RegisterPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border-white/10 bg-white/5 text-white"
+                className="border-white/10 bg-white/5"
               />
               <p className="text-xs text-gray-500">
                 Password must be at least 8 characters long

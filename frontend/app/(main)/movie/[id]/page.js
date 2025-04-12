@@ -1,5 +1,5 @@
 import Trailer from "@/components/MovieTrailer";
-import SimilarMovies from "@/components/similarMovies";
+import SimilarMovies from "@/components/SimilarMovies";
 import { Badge } from "@/components/ui/badge";
 import WatchListSeenButtons from "@/components/WatchListSeenButtons";
 import {
