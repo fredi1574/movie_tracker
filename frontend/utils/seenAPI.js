@@ -76,12 +76,25 @@ export async function countMoviesByGenre() {
 }
 
 export async function getMostWatchedGenre() {
-  const response = await fetch("http://localhost:8080/seen/most-watched-genre");
+  try {
+    const response = await fetch(
+      "http://localhost:8080/seen/most-watched-genre",
+    );
 
-  if (!response.ok) {
-    throw new Error(response.statusText);
+    if (!response.ok) {
+      throw new Error("Failed to fetch most watched genre");
+    }
+
+    const data = await response.json();
+
+    // Handle empty or invalid data gracefully
+    if (!Array.isArray(data) || data.length === 0) {
+      return "No data available.";
+    }
+
+    return data.map((genre) => genre.name).join(", ");
+  } catch (error) {
+    console.error("Error fetching most watched genre:", error);
+    return "Error loading data.";
   }
-
-  const data = await response.json();
-  return data.map((genre) => genre.name).join(", ");
 }
