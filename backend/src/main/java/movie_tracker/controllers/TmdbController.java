@@ -53,4 +53,11 @@ public class TmdbController {
     public List<MovieDto> getMoviesByActor(@PathVariable Long actorId) {
         return tmdbService.getMoviesByActor(actorId);
     }
+
+    @GetMapping("/search/movies")
+    public List<MovieDto> searchMovies(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "1") int page) {
+        return tmdbService.searchMovies(query, page);
+    }
 }

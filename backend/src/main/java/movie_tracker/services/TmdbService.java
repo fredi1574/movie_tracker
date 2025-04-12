@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,10 +99,31 @@ public class TmdbService {
         return moviesResponseWrapper.getCast().stream().map(movie -> MovieDto.builder().id(movie.getId()).title(movie.getTitle()).overview(movie.getOverview()).poster_path(movie.getPoster_path()).build()).collect(Collectors.toList());
     }
 
-    public List<MovieDto> searchMovies(String query) {
-        String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/search").queryParam("api_key", apiKey).queryParam("query", query).toUriString();
+    public List<MovieDto> searchMovies(String query, int page) { // Added page parameter
+        if (query == null || query.trim().isEmpty()) {
+            return Collections.emptyList(); // Return empty if query is blank
+        }
 
-        ResponseEntity<MovieDto[]> response = restTemplate.getForEntity(url, MovieDto[].class);
-        return Arrays.asList(response.getBody());
+        String url = UriComponentsBuilder.fromUriString(TMDB_API_URL + "/search/movie")
+                .queryParam("api_key", apiKey)
+                .queryParam("query", query)
+                .queryParam("page", page) // Add page
+                .queryParam("include_adult", "false") // Optional: Exclude adult content
+                .toUriString();
+
+        ListResponseWrapper listResponseWrapper = restTemplate.getForObject(url, ListResponseWrapper.class);
+
+        // Filter out results without poster paths for better display
+        if (listResponseWrapper != null && listResponseWrapper.getResults() != null) {
+            return listResponseWrapper.getResults().stream()
+                    .filter(movie -> movie.getPoster_path() != null && !movie.getPoster_path().isEmpty())
+                    .collect(Collectors.toList());
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    public List<MovieDto> searchMovies(String query) {
+        return searchMovies(query, 1);
     }
 }
